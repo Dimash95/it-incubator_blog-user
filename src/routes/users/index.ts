@@ -1,12 +1,11 @@
 import express, { Request, Response } from "express";
-import { genSalt, hash } from "bcrypt-ts";
+import bcrypt from "bcryptjs";
 
 import { UserModel } from "./model";
 import { basicAuth } from "../../middlewares/auth";
 import { inputValidation } from "../../middlewares/input-validation";
 import { HttpResponses } from "../../const";
 import { userValidation } from "./validation";
-console.log("versel error");
 
 export const usersRouter = express.Router();
 
@@ -93,8 +92,7 @@ usersRouter.post(
       }
     }
 
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(password, salt);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
     const newUser = await UserModel.create({
       login,

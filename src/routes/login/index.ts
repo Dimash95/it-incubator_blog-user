@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { compare } from "bcrypt-ts";
+import bcrypt from "bcryptjs";
 
 import { HttpResponses } from "../../const";
 import { loginValidation } from "./validation";
@@ -30,7 +30,7 @@ authRouter.post(
       });
     }
 
-    const isValid = await compare(password, user.password);
+    const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
       return res.status(HttpResponses.UNAUTHORIZED);
