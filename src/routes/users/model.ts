@@ -3,9 +3,9 @@ import { UserType } from "./types";
 
 const UserSchema = new mongoose.Schema(
   {
-    login: { type: String, required: true, maxlength: 50 },
-    password: { type: String, required: true, maxlength: 50 },
-    email: { type: String, required: true, maxlength: 50 },
+    login: { type: String, required: true },
+    password: { type: String, required: true },
+    email: { type: String, required: true },
     createdAt: { type: String, default: () => new Date().toISOString() },
   },
   {

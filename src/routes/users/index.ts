@@ -11,8 +11,8 @@ export const usersRouter = express.Router();
 
 usersRouter.get("/", async (req: Request, res: Response) => {
   let {
-    searchLoginTerm = null,
-    searchEmailTerm = null,
+    searchLoginTerm = "",
+    searchEmailTerm = "",
     sortBy = "createdAt",
     sortDirection = "desc",
     pageNumber = 1,
@@ -41,8 +41,8 @@ usersRouter.get("/", async (req: Request, res: Response) => {
 
   const mappedUser = () =>
     filteredUsers.map((user) => {
-      const { password, ...rest } = user;
-      return { ...rest };
+      const { id, login, email, createdAt } = user;
+      return { id, login, email, createdAt };
     });
 
   const result = {
@@ -50,7 +50,7 @@ usersRouter.get("/", async (req: Request, res: Response) => {
     page: pageNumber,
     pageSize,
     totalCount,
-    items: mappedUser,
+    items: mappedUser(),
   };
 
   res.status(HttpResponses.OK).send(result);
