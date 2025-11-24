@@ -100,7 +100,14 @@ usersRouter.post(
       email,
     });
 
-    return res.status(HttpResponses.CREATED).send(newUser);
+    const returnedUser = {
+      id: newUser.id,
+      login: newUser.login,
+      email: newUser.email,
+      createdAt: newUser.createdAt,
+    };
+
+    return res.status(HttpResponses.CREATED).send(returnedUser);
   }
 );
 
