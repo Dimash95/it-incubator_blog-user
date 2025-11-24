@@ -6,6 +6,7 @@ import { basicAuth } from "../../middlewares/auth";
 import { inputValidation } from "../../middlewares/input-validation";
 import { HttpResponses } from "../../const";
 import { userValidation } from "./validation";
+console.log("versel error");
 
 export const usersRouter = express.Router();
 
