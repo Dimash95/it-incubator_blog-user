@@ -1,4 +1,4 @@
-# it-incubator_hw-1
+# it-incubator_blog-user
 
 Учебный проект на **Node.js + Express + TypeScript**, в котором реализован CRUD API для работы с видео и автоматические e2e-тесты на **Jest + Supertest**.
 
