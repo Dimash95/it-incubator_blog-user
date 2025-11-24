@@ -64,35 +64,32 @@ usersRouter.post(
   async (req: Request, res: Response) => {
     const { login, password, email } = req.body;
 
-    const users = await UserModel.find();
+    const userByLogin = await UserModel.findOne({ login });
+    const userByEmail = await UserModel.findOne({ email });
 
-    for (const user of users) {
-      if (user.login === login) {
-        return res.status(HttpResponses.BAD_REQUEST).send({
-          errorsMessages: [
-            {
-              message: "login should be unique",
-              field: "login",
-            },
-          ],
-        });
-      }
+    if (userByLogin) {
+      return res.status(HttpResponses.BAD_REQUEST).send({
+        errorsMessages: [
+          {
+            message: "login should be unique",
+            field: "login",
+          },
+        ],
+      });
     }
 
-    for (const user of users) {
-      if (user.email === email) {
-        return res.status(HttpResponses.BAD_REQUEST).send({
-          errorsMessages: [
-            {
-              message: "email should be unique",
-              field: "email",
-            },
-          ],
-        });
-      }
+    if (userByEmail) {
+      return res.status(HttpResponses.BAD_REQUEST).send({
+        errorsMessages: [
+          {
+            message: "email should be unique",
+            field: "email",
+          },
+        ],
+      });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await UserModel.create({
       login,
