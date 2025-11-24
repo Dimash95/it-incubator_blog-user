@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import { UserType } from "./types";
 
 const UserSchema = new mongoose.Schema(
   {
-    login: { type: String, required: true, maxlength: 30 },
-    password: { type: String, required: true, maxlength: 30 },
-    email: { type: String, required: true, maxlength: 30 },
+    login: { type: String, required: true, maxlength: 50 },
+    password: { type: String, required: true, maxlength: 50 },
+    email: { type: String, required: true, maxlength: 50 },
     createdAt: { type: String, default: () => new Date().toISOString() },
   },
   {
@@ -18,4 +19,4 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-export const UserModel = mongoose.model("User", UserSchema);
+export const UserModel = mongoose.model<UserType>("User", UserSchema);

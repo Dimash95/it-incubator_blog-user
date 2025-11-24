@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-const bcrypt = require("bcrypt");
+import { genSalt, hash } from "bcrypt-ts";
 
 import { UserModel } from "./model";
 import { basicAuth } from "../../middlewares/auth";
@@ -39,12 +39,18 @@ usersRouter.get("/", async (req: Request, res: Response) => {
     (pageNumber - 1) * pageSize + pageSize
   );
 
+  const mappedUser = () =>
+    filteredUsers.map((user) => {
+      const { password, ...rest } = user;
+      return { ...rest };
+    });
+
   const result = {
     pagesCount,
     page: pageNumber,
     pageSize,
     totalCount,
-    items: filteredUsers,
+    items: mappedUser,
   };
 
   res.status(HttpResponses.OK).send(result);
@@ -86,9 +92,12 @@ usersRouter.post(
       }
     }
 
+    const salt = await genSalt(10);
+    const hashedPassword = await hash(password, salt);
+
     const newUser = await UserModel.create({
       login,
-      password,
+      password: hashedPassword,
       email,
     });
 
