@@ -8,7 +8,7 @@ import { usersRouter } from "./users";
 export const apiRouter = express.Router();
 
 apiRouter.use("/testing/all-data", dropRouter);
-apiRouter.use("/auth", authRouter);
+apiRouter.use("/auth/login", authRouter);
 apiRouter.use("/blogs", blogsRouter);
 apiRouter.use("/posts", postsRouter);
 apiRouter.use("/users", usersRouter);
