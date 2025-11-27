@@ -20,7 +20,7 @@ authRouter.post(
     });
 
     if (!user) {
-      return res.status(HttpResponses.BAD_REQUEST).send({
+      return res.status(HttpResponses.UNAUTHORIZED).send({
         errorsMessages: [
           {
             message: "User is not found",
@@ -33,9 +33,9 @@ authRouter.post(
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
-      return res.status(HttpResponses.UNAUTHORIZED);
+      return res.sendStatus(HttpResponses.UNAUTHORIZED);
     }
 
-    return res.status(HttpResponses.NO_CONTENT);
+    return res.sendStatus(HttpResponses.NO_CONTENT);
   }
 );
