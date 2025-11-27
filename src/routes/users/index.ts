@@ -25,8 +25,10 @@ usersRouter.get("/", async (req: Request, res: Response) => {
   const sortCreatedAt = () => (sortDirection === "asc" ? "asc" : "desc");
 
   const users = await UserModel.find({
-    login: { $regex: searchLoginTerm, $options: "i" },
-    email: { $regex: searchEmailTerm, $options: "i" },
+    $or: [
+      { login: { $regex: searchLoginTerm, $options: "i" } },
+      { email: { $regex: searchEmailTerm, $options: "i" } },
+    ],
   }).sort({
     [`${sortBy}`]: sortCreatedAt(),
   });
